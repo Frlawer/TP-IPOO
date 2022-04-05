@@ -10,12 +10,12 @@ class Libro
 
     public function __construct($isbn, $titulo, $anioEdicion, $editorial, $nombre, $apellido)
     {
-        $this->isbn = $isbn;
-        $this->titulo = $titulo;
-        $this->anioEdicion = $anioEdicion;
-        $this->editorial = $editorial;
-        $this->nombre = $nombre;
-        $this->apellido = $apellido;
+        $this->isbn = is_int($isbn);
+        $this->titulo = is_string($titulo);
+        $this->anioEdicion = is_int($anioEdicion);
+        $this->editorial = is_string($editorial);
+        $this->nombre = is_string($nombre);
+        $this->apellido = is_string($apellido);
     }
 
     public function getIsbn()
@@ -56,18 +56,30 @@ class Libro
 
     public function iguales($pLibro, $datos)
     {
-        foreach ($datos as $key => $value) {
-            ($pLibro === $datos['titulo']) ? 'true' : 'false';
-        }
+        return (in_array($pLibro, $datos)) ? true : false;
+    }
+
+    public function aniosDesdeEdicion()
+    {
+        $datetime1 = new DateTime('Y');
+        $datetime2 = new DateTime($this->anioEdicion);
+        $interval = $datetime1->diff($datetime2);
+        echo $interval->format('%Y años');
     }
 }
 
 $datos = [
-    'isbn' => '25829',
+    'isbn' => 25829,
     'titulo' => 'tituloLibro',
+    'anioEdicion' => 2017,
     'editorial' => 'laprida',
     'nombre' => 'nombreautor',
     'apellido' => 'apellidoautor'
 ];
-$ehao = new Libro('', '', '', '', '', '', '');
-echo $ehao->iguales($datos['titulo'], $datos);
+
+$ehao = new Libro($datos['isbn'], $datos['titulo'], $datos['anioEdicion'], $datos['editorial'], $datos['nombre'], $datos['apellido']);
+
+// echo $ehao->aniosDesdeEdicion();
+// $resultado = $ehao->iguales($datos['titulo], $datos);
+// print_r($resultado);
+$ehao->aniosDesdeEdicion();
