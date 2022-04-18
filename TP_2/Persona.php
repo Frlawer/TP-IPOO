@@ -8,10 +8,10 @@ class Persona
 
     public function __construct($nombre, $apellido, $tipo, $numero)
     {
-        $this->nombre = $nombre;
-        $this->apellido = $apellido;
-        $this->tipo = $tipo;
-        $this->numero = $numero;
+        $this->setNombre($nombre);
+        $this->setApellido($apellido);
+        $this->setTipo($tipo);
+        $this->setNumero($numero);
     }
 
     public function getNombre()
@@ -19,9 +19,19 @@ class Persona
         return $this->nombre;
     }
 
+    public function setNombre($nombre)
+    {
+        $this->nombre = $nombre;
+    }
+
     public function getApellido()
     {
         return $this->apellido;
+    }
+
+    public function setApellido($apellido)
+    {
+        $this->apellido = $apellido;
     }
 
     public function getTipo()
@@ -29,13 +39,27 @@ class Persona
         return $this->tipo;
     }
 
+    public function setTipo($tipo)
+    {
+        $this->tipo = $tipo;
+    }
+
     public function getNumero()
     {
         return $this->numero;
     }
 
+    public function setNumero($numero)
+    {
+        $this->numero = $numero;
+    }
+
+
     public function __toString()
     {
-        return '(Nombre: ' . $this->nombre . ', Apellido: ' . $this->apellido . ', Tipo: ' . $this->tipo . ', Número: ' . $this->numero . ')';
+        return "\n Nombre: " . $this->nombre .
+            "\n Apellido: " . $this->apellido .
+            "\n Tipo: " . $this->tipo .
+            "\n Número: " . $this->numero;
     }
 }

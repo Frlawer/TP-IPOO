@@ -80,7 +80,7 @@ class Viaje
     public function nuevoPasajero($pasajero)
     {
         $listaPasajeros = $this->getPasajeros();
-        array_push($listaPasajeros, $pasajero);
+        $listaPasajeros[] = $pasajero;
         return $listaPasajeros;
     }
 

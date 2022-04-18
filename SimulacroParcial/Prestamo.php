@@ -1,12 +1,11 @@
 <?php
-include "Cuota.php";
 class Prestamo
 {
     private $id;
     private $codigo;
     private $fecha;
     private $monto;
-    private $cantCuotas;
+    private $cantidad_de_cuotas;
     private $tazaInteres;
     private $colCuotas;
     private $persona;
@@ -15,7 +14,7 @@ class Prestamo
     {
         $this->setId($id);
         $this->setMonto($monto);
-        $this->setCantCuotas($cantCuotas);
+        $this->setCantidad_de_cuotas($cantCuotas);
         $this->setTazaInteres($tazaInteres);
         $this->setPersona($persona);
     }
@@ -60,14 +59,14 @@ class Prestamo
         $this->monto = $monto;
     }
 
-    public function getCantCuotas()
+    public function getCantidad_de_cuotas()
     {
-        return $this->cantCuotas;
+        return $this->cantidad_de_cuotas;
     }
 
-    public function setCantCuotas($cantCuotas)
+    public function setCantidad_de_cuotas($cantCuotas)
     {
-        $this->cantCuotas = $cantCuotas;
+        $this->cantidad_de_cuotas = $cantCuotas;
     }
 
     public function getTazaInteres()
@@ -102,7 +101,7 @@ class Prestamo
 
     /**
      * calcInteresPrestamo
-     *
+     * Calcula el interes de la cuota según el numero de cuota.
      * @param int $numCuota
      * @return bool
      */
@@ -110,8 +109,8 @@ class Prestamo
     {
         $interes = $this->getTazaInteres();
         $monto = $this->getMonto();
-
-        $interesNumCuota = ($monto - (($monto / $numCuota) * $numCuota - 1)) * $interes;
+        $cantCuotas = $this->getCantidad_de_cuotas();
+        $interesNumCuota = ($monto - (($monto / $cantCuotas) * $numCuota - 1)) * $interes / 0.01;
         return $interesNumCuota;
     }
 
@@ -124,29 +123,40 @@ class Prestamo
     public function otorgarPrestamo()
     {
         // defino variables
-        $cuotas = [];
-        $cantCuotas = $this->getCantCuotas();
+        $colCuotas = [];
+        $cantCuotas = $this->getCantidad_de_cuotas();
         $monto = $this->getMonto();
 
-        for ($i = 1; $i <= $cantCuotas; $i++) {
-            $cuotas[] = new Cuota($i, $monto, $this->calcInteresPrestamo($i));
-        }
+        $montoCuota = $monto / $cantCuotas;
 
-        if (count($cuotas) == $cantCuotas) {
-            // seteo fecha
-            $this->setFecha(getdate());
-            // seteo Coleccion de cuotas
-            $this->setColCuotas($cuotas);
-        } else throw new Exception("No fueron cargadas las cuotas");
+        for ($i = 0; $i <= $cantCuotas; $i++) {
+            $interes = $this->calcInteresPrestamo(($i + 1));
+
+            $colCuotas[$i] = new Cuota(($i + 1), $montoCuota, $interes);
+        }
+        // seteo fecha
+        $this->setFecha(getdate());
+        // seteo Coleccion de cuotas
+        $this->setColCuotas($colCuotas);
     }
 
     public function darSiguienteCuotaPagar()
     {
-        $cuotas = $this->getColCuotas();
+        $colCuotas = $this->getColCuotas();
+        $existe = false;
+        $i = 0;
+        $siguienteCuota = null;
 
-        $ultimaSinPagar = array_search("false", $cuotas);
+        while ($i < count($colCuotas) && $existe == false) {
+            if ($colCuotas[$i]->getCancelada() == false) {
+                $existe = true;
+            }
+            $i++;
+        }
 
-        $siguienteCuota = ($ultimaSinPagar) ? $ultimaSinPagar : null;
+        if ($existe == true) {
+            $siguienteCuota = $colCuotas[$i];
+        }
 
         return $siguienteCuota;
     }
@@ -157,8 +167,9 @@ class Prestamo
             "\n Codigo: " . $this->getCodigo() .
             "\n fecha: " . $this->getfecha() .
             "\n Monto: " . $this->getMonto() .
-            "\n Cantidad de Cuotas: " . $this->getCantCuotas() .
+            "\n Cantidad de Cuotas: " . $this->getCantidad_de_cuotas() .
             "\n Taza de Interes: " . $this->getTazaInteres() .
+            "\n Coleccion Cuotas: " . $this->getColCuotas() .
             "\n Persona: " . $this->getPersona();
     }
 }

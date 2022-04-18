@@ -52,45 +52,16 @@ function solicitarNumero($min, $max)
     return $numero;
 }
 
-function editarViaje($viaje)
+function datosViaje()
 {
+    $datos = [];
     echo 'Ingrese codigo de viaje: ';
-    $codigo = trim(fgets(STDIN));
+    $datos["codigo"] = trim(fgets(STDIN));
     echo 'Ingrese destino: ';
-    $destino = trim(fgets(STDIN));
+    $datos["destino"] = trim(fgets(STDIN));
     echo 'Capacidad maxima de pasajeros: ';
-    $cant = trim(fgets(STDIN));
-    if ($viaje->getCantidadMaximaPasajeros() != 0) {
-        if ($cant <= $viaje->getCantidadMaximaPasajeros()) {
-            if ($cant <= $viaje->getCantidadMaximaPasajeros()) {
-                $viaje->setCodigo($codigo);
-            } else {
-            }
-            $viaje->setDestino($destino);
-            $viaje->setCantidadMaxPasajeros($cant);
-        } else {
-            'No es posible modificar este dato, intente de nuevo';
-        }
-    } else {
-        $viaje->setCodigo($codigo);
-        $viaje->setDestino($destino);
-        $viaje->setCantidadMaxPasajeros($cant);
-    }
-}
-
-function sumarPasajeros($cantidadPasajeros)
-{
-    $coleccionPasajeros = [];
-    for ($i = 0; $i < $cantidadPasajeros; $i++) {
-        echo 'Ingrese nombre pasajero N° ' . $i + 1 . ': ';
-        $nuevoPasajero[$i]['nombre'] = trim(fgets(STDIN));
-        echo 'Ingrese apellido pasajero N° ' . $i + 1 . ': ';
-        $nuevoPasajero[$i]['apellido'] = trim(fgets(STDIN));
-        echo 'Ingrese DNI pasajero N° ' . $i + 1 . ': ';
-        $nuevoPasajero[$i]['dni'] = trim(fgets(STDIN));
-    }
-    array_push($coleccionPasajeros, $nuevoPasajero);
-    return $coleccionPasajeros[0];
+    $datos["cantMaxPasajeros"] = trim(fgets(STDIN));
+    return $datos;
 }
 
 function mostrarViaje($viaje)
@@ -114,17 +85,35 @@ function mostrarViaje($viaje)
     }
 }
 
+function sumarPasajeros($cantPasj)
+{
+    echo $cantPasj;
+    $coleccionPasajeros = [];
+    for ($i = 0; $i < $cantPasj; $i++) {
+        echo "\n Pasajero N°: " . $i + 1 . "\n";
+        $pasajero = editarPasajero();
 
+        $coleccionPasajeros[] = $pasajero;
+    }
+    return $coleccionPasajeros;
+}
+
+/**
+ * EditarPasajero 
+ * Solicita los datos de pasajero y retorna los mismos
+ *
+ * @return array
+ */
 function editarPasajero()
 {
-    $datos = [];
-    echo "Ingrese nuevo Nombre: ";
-    $datos['nombre'] = trim(fgets(STDIN));
-    echo "Ingrese nuevo Apellido: ";
-    $datos['apellido'] = trim(fgets(STDIN));
-    echo "Ingrese nuevo DNI: ";
-    $datos['dni'] = trim(fgets(STDIN));
-    return $datos;
+    $datosPasajero = [];
+    echo "Ingrese Nombre: ";
+    $datosPasajero["nombre"] = trim(fgets(STDIN));
+    echo "Ingrese Apellido: ";
+    $datosPasajero["apellido"] = trim(fgets(STDIN));
+    echo "Ingrese DNI: ";
+    $datosPasajero["dni"] = trim(fgets(STDIN));
+    return $datosPasajero;
 }
 
 /**************************************/
@@ -147,21 +136,33 @@ do {
             if (is_object($viaje) && $viaje->getCodigo() != 0) {
                 echo "Ya se cargó un viaje.";
             } else {
-                editarViaje($viaje);
+                $datosViaje  = datosViaje();
+                $viaje->setCodigo($datosViaje["codigo"]);
+                $viaje->setDestino($datosViaje["destino"]);
+                $viaje->setCantidadMaxPasajeros($datosViaje["cantMaxPasajeros"]);
+
                 echo "¿Cuantos pasajeros cargara? ";
-                $cantidad = trim(fgets(STDIN));
-                if ($cantidad <= $viaje->getCantidadMaximaPasajeros()) {
-                    $agregarPasajeros = sumarPasajeros($cantidad);
-                    $viaje->setPasajeros($agregarPasajeros);
-                } else {
+                $cantidadPasajeros = trim(fgets(STDIN));
+                while (!is_int($cantidadPasajeros) && $cantidadPasajeros > $viaje->getCantidadMaximaPasajeros()) {
                     echo "No es posible cargar mas personas del limite. Intente de nuevo";
+                    $cantidadPasajeros = trim(fgets(STDIN));
                 }
+                $pasajeros = sumarPasajeros($cantidadPasajeros);
+                $viaje->setPasajeros($pasajeros);
             }
             break;
         case 2:
             if (is_object($viaje) && $viaje->getCodigo() != 0) {
                 echo "Modifique los datos del viaje: \n";
-                editarViaje($viaje);
+                $datosViaje = datosViaje($viaje);
+                while ($datosViaje["cantMaxPasajeros"] < count($viaje->getPasajeros())) {
+                    echo "\nLa cantidad Maxima de Pasajeros no puede ser menor a los pasajeros cargados. Intente de nuevo.\n";
+                    $datosViaje = datosViaje($viaje);
+                }
+                $viaje->setCodigo($datosViaje["codigo"]);
+                $viaje->setDestino($datosViaje["destino"]);
+                $viaje->setCantidadMaxPasajeros($datosViaje["cantMaxPasajeros"]);
+                echo "\nDatos Modificados.!\n";
             } else {
                 echo "El viaje no se inició aún.";
             }

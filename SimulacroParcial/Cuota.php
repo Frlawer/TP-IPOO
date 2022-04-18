@@ -63,7 +63,7 @@ class Cuota
         $montoCuota = $this->getMontoCuota();
         $montoInteres = $this->getMontoInteres();
 
-        $importeTotal = $montoCuota + (($montoCuota * $montoInteres) / 100);
+        $importeTotal = $montoCuota + $montoInteres;
 
         return $importeTotal;
     }

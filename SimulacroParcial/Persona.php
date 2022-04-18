@@ -1,31 +1,27 @@
 <?php
-
-/**
- * Personas
- * @var nombre
- * @var 
- */
 class Persona
 {
     private $nombre;
     private $apellido;
-    private $dni;
     private $direccion;
     private $email;
     private $telefono;
     private $neto;
 
-    public function __construct($nombre, $apellido, $dni, $direccion, $email, $telefono, $neto)
-    {
-        if (is_string($nombre) && is_string($apellido) && is_numeric($id) && is_string($direccion) && is_string($email) && is_numeric($telefono) && is_numeric($neto)) {
-            $this->setNombre($nombre);
-            $this->setApellido($apellido);
-            $this->setDni($dni);
-            $this->setDireccion($direccion);
-            $this->setEmail($email);
-            $this->setTelefono($telefono);
-            $this->setNeto($neto);
-        } else throw new ErrorException("x e y deben ser valores numérico");
+    public function __construct(
+        $nombre,
+        $apellido,
+        $direccion,
+        $email,
+        $telefono,
+        $neto
+    ) {
+        $this->setNombre($nombre);
+        $this->setApellido($apellido);
+        $this->setDireccion($direccion);
+        $this->setEmail($email);
+        $this->setTelefono($telefono);
+        $this->setNeto($neto);
     }
 
 
@@ -47,16 +43,6 @@ class Persona
     public function setApellido($apellido)
     {
         $this->apellido = $apellido;
-    }
-
-    public function getDni()
-    {
-        return $this->dni;
-    }
-
-    public function setDni($dni)
-    {
-        $this->dni = $dni;
     }
 
     public function getDireccion()
@@ -103,7 +89,6 @@ class Persona
     {
         return "\nNombre: " . $this->getNombre() .
             "\n Apellido: " . $this->getApellido() .
-            "\n DNI: " . $this->getDni() .
             "\n Dirección: " . $this->getDireccion() .
             "\n Email: " . $this->getEmail() .
             "\n Teléfono: " . $this->getTelefono() .
