@@ -30,7 +30,7 @@ function seleccionarOpcion()
         "3) Mostrar datos Viaje",
         "4) Modificar pasajero",
         "5) Eliminar pasajero",
-        "7) Salir"
+        "6) Salir"
     ];
     // imprimo el menu con bucle
     echo "Selecciona una opción del Menú: \n";
@@ -38,7 +38,7 @@ function seleccionarOpcion()
         echo $key . "\n";
     }
     // llamo a la funcion solicitarNumero() para solicitar un numero y lo retorno.
-    $opcion = solicitarNumero(1, 7);
+    $opcion = solicitarNumero(1, 6);
     return $opcion;
 }
 
@@ -72,7 +72,7 @@ function mostrarViaje($viaje)
     echo "Destino: " . $viaje->getDestino();
     echo "\n";
     echo "Cantidad máxima de pasajeros: " . $viaje->getCantidadMaximaPasajeros();
-    echo "\n >> \n";
+    echo "\n\n+++++++++++++++++++++++++++++++++\n";
     foreach ($viaje->getPasajeros() as $key => $value) {
         echo ">> Pasajero N° " . $key + 1 . ": ";
         echo "\n";
@@ -177,12 +177,12 @@ do {
                 echo "Ingrese el dni del pasajero a editar: ";
                 $dni = trim(fgets(STDIN));
                 $idPasajero = $viaje->getPasajeroDNI($dni);
-                if ($idPasajero) {
+                if (is_int($idPasajero)) {
+
                     $datos = sumarPasajeros(1);
                     $viaje->eliminarPasajero($idPasajero);
-                    $lista = $viaje->getPasajeros();
-                    $arrPasajeros = array_merge($lista, $datos);
-                    $viaje->setPasajeros($arrPasajeros);
+                    $agregado = $viaje->nuevoPasajero($datos[0]);
+                    $viaje->setPasajeros(array_values($agregado));
                 } else {
                     echo "El pasajero No Existe.";
                 }
@@ -194,16 +194,14 @@ do {
             echo "Ingrese el dni del pasajero a eliminar: ";
             $dni = trim(fgets(STDIN));
             $idPasajero = $viaje->getPasajeroDNI($dni);
-            if ($idPasajero) {
+            if (is_int($idPasajero)) {
                 $viaje->eliminarPasajero($idPasajero);
             } else {
                 echo "El pasajero no existe: ";
             }
             break;
         case 6:
-            break;
-        case 7:
             echo "Programa finalizado....";
             break;
     }
-} while ($opcion != 7);
+} while ($opcion != 6);

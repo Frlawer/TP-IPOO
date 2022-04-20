@@ -85,33 +85,6 @@ class Viaje
     }
 
     /**
-     * Seguro esta funcion iba en el archivo testViaje.php
-     * pero no tuve tiempo de cambiarla de lado
-     *
-     * @param array $coleccionPasajeros
-     * @param int $cantidad
-     * @return array
-     */
-    public function agregarPasajeros($coleccionPasajeros, $cantidad)
-    {
-        if ($cantidad <= $this->getCantidadMaximaPasajeros()) {
-            for ($i = 0; $i < $cantidad; $i++) {
-                echo 'Ingrese nombre pasajero N° ' . $i + 1 . ': ';
-                $nuevoPasajero[$i]['nombre'] = trim(fgets(STDIN));
-                echo 'Ingrese apellido pasajero N° ' . $i + 1 . ': ';
-                $nuevoPasajero[$i]['apellido'] = trim(fgets(STDIN));
-                echo 'Ingrese DNI pasajero N° ' . $i + 1 . ': ';
-                $nuevoPasajero[$i]['dni'] = trim(fgets(STDIN));
-            }
-            array_push($coleccionPasajeros, $nuevoPasajero);
-            $this->setPasajeros($coleccionPasajeros[0]);
-        } else {
-            echo 'No es posible cargar más pasajeros de los permitidos.';
-        }
-        return $coleccionPasajeros[0];
-    }
-
-    /**
      * busca en la lista de pasajeros el que corresponde al dni
      * retorna el indice del array si existe, sino -1
      *
@@ -124,7 +97,7 @@ class Viaje
         $tamanoPasajeros = count($this->getPasajeros());
         $existe = false;
         while ($i < $tamanoPasajeros && !$existe) {
-            if (($this->getPasajeros())[$i]["dni"] == $dni) {
+            if ($this->getPasajeros()[$i]["dni"] == $dni) {
                 $existe = true;
             } else {
                 $i++;
@@ -134,22 +107,6 @@ class Viaje
             $i = -1;
         }
         return $i;
-    }
-
-    /**
-     * modifica la lista de pasajeros y agrega una nueva con los datos modificados
-     *
-     * @param array $arr
-     * @param array $datos
-     * @param int $id
-     * @return void
-     */
-    public function cambiarPasajeros($arr, $datos, $id)
-    {
-        $arr[$id]['nombre'] = $datos['nombre'];
-        $arr[$id]['apellido'] = $datos['apellido'];
-        $arr[$id]['dni'] = $datos['dni'];
-        $this->setPasajeros($arr);
     }
 
     public function eliminarPasajero($id)
