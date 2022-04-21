@@ -5,7 +5,7 @@ include 'Viaje.php';
 /***** DATOS DE LOS INTEGRANTES *******/
 /**************************************/
 
-/* ... Rodriguez Francisco. FAI-1094. TDW. francisco.rodriguez@est.fi.uncoma.edu.ar. https://github.com/frlawer/ ... */
+/* ... Rodriguez Francisco. FAI-1094. TDW. francisco.rodriguez@est.fi.uncoma.edu.ar. https://github.com/frlawer/ ...*/
 
 /**************************************/
 /***** DEFINICION DE FUNCIONES ********/

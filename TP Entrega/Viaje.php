@@ -121,6 +121,17 @@ class Viaje
         }
     }
 
+    public function listaPasajeros()
+    {
+        $lista = $this->getPasajeros();
+        for ($i = 0; $i < count($lista); $i++) {
+            echo "\n Pasajero N° " . $i .
+                "\nNombre: " . $lista[$i]["nombre"] .
+                "\nApellido: " . $lista[$i]["apellido"] .
+                "\nDNI: " . $lista[$i]["dni"];
+        }
+    }
+
     /**
      * Imprime los datos de la clase
      *
@@ -128,6 +139,9 @@ class Viaje
      */
     public function __toString()
     {
-        return "\n Codigo viaje: " . $this->getCodigo() . "\n Destino: " . $this->getDestino() . "\n Cantidad Maxima de pasajeros: " . $this->getCantidadMaximaPasajeros() . "\n";
+        return "\nCodigo viaje: " . $this->getCodigo() .
+            "\nDestino: " . $this->getDestino() .
+            "\nCantidad Maxima de pasajeros: " . $this->getCantidadMaximaPasajeros() .
+            "\n Pasajeros: " . $this->listaPasajeros();
     }
 }

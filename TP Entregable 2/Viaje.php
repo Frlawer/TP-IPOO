@@ -107,7 +107,7 @@ class viaje
         $colPasajeros = $this->getColPasajeros();
         $id = null;
         for ($i = 0; $i < count($colPasajeros); $i++) {
-            if ($colPasajeros[$i]->getDni() == $dni && $id != null) {
+            if ($colPasajeros[$i]->getDni() == $dni) {
                 $id = $i;
             } else {
                 $id = -1;
