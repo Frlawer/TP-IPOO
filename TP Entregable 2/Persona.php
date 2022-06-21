@@ -14,6 +14,17 @@ class Persona
         $this->setTelefono($telefono);
     }
 
+    public function __toString()
+    {
+        $string = "Nombre: " . $this->getNombre() . "\n";
+        $string .= "Apellido: " . $this->getApellido() . "\n";
+        $string .= "Documento: " . $this->getDni() . "\n";
+        $string .= "Teléfono: " . $this->getTelefono() . "\n";
+
+        return $string;
+    }
+
+    /** ###################'Getters & Setters'#################### */
     public function getNombre()
     {
         return $this->nombre;
@@ -52,13 +63,5 @@ class Persona
     public function setTelefono($telefono)
     {
         $this->telefono = $telefono;
-    }
-
-    public function __toString()
-    {
-        return "\nNombre: " . $this->getNombre() .
-            "\nApellido: " . $this->getApellido() .
-            "\nDocumento: " . $this->getDni() .
-            "\nTeléfono: " . $this->getTelefono();
     }
 }

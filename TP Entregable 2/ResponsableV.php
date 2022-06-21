@@ -14,6 +14,18 @@ class ResponsableV
         $this->setApellido($apellido);
     }
 
+
+    public function __toString()
+    {
+        $string = "Número de empleado: " . $this->getEmpleado() . "\n";
+        $string .= "Número de Licencia: " . $this->getLicencia() . "\n";
+        $string .= "Nombre: " . $this->getNombre() . "\n";
+        $string .= "Apellido: " . $this->getApellido() . "\n";
+
+        return $string;
+    }
+
+    /** ###################'Getters & Setters'#################### */
     public function getEmpleado()
     {
         return $this->empleado;
@@ -52,13 +64,5 @@ class ResponsableV
     public function setApellido($apellido)
     {
         $this->apellido = $apellido;
-    }
-
-    public function __toString()
-    {
-        return "\nNúmero de empleado: " . $this->getEmpleado() .
-            "\nNúmero de Licencia: " . $this->getLicencia() .
-            "\nNombre: " . $this->getNombre() .
-            "\nApellido: " . $this->getApellido();
     }
 }

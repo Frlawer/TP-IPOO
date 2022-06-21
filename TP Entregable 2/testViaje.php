@@ -77,7 +77,7 @@ function mostrarViaje($viaje)
         "\nResponsable Viaje: " . $viaje->getResponsable()->__toString() .
         "\n\n++++++++++++++++++++++++++\n";
     for ($i = 0; $i < count($viaje->getColPasajeros()); $i++) {
-        echo "\n>> Pasajero N° " . $i + 1 . ": " .
+        echo "\n>> Pasajero N° " . $i . ": " .
             "\nNombre: " . $viaje->getColPasajeros()[$i]->getNombre() .
             "\nApellido: " . $viaje->getColPasajeros()[$i]->getApellido() .
             "\nDNI: " . $viaje->getColPasajeros()[$i]->getDni() .
@@ -105,7 +105,7 @@ function sumarPasajeros($cantPasj)
 {
     $coleccionPasajeros = [];
     for ($i = 0; $i < $cantPasj; $i++) {
-        echo "\n Pasajero N°: " . $i + 1 . "\n";
+        echo " Pasajero N°: " . $i + 1 . "\n";
         $pasajero = cargarPasajero();
 
         $coleccionPasajeros[] = $pasajero;
@@ -130,7 +130,9 @@ function cargarPasajero()
     $datosPasajero["dni"] = trim(fgets(STDIN));
     echo "Ingrese Teléfono: ";
     $datosPasajero["telefono"] = trim(fgets(STDIN));
+
     $persona = new Persona($datosPasajero["nombre"], $datosPasajero["apellido"], $datosPasajero["dni"], $datosPasajero["telefono"]);
+
     return $persona;
 }
 
@@ -197,11 +199,11 @@ do {
                 echo "MODIFICAR DATOS PASAJERO\n";
                 echo "Ingrese el dni del pasajero a editar: ";
                 $dni = trim(fgets(STDIN));
-                $idPasajero = $viaje->existePasajero($dni);
-                if (is_int($idPasajero) && $idPasajero != -1) {
+                $existePasajero = $viaje->existePasajero($dni);
+                if ($existePasajero != false) {
 
                     $datos = sumarPasajeros(1);
-                    $viaje->eliminarPasajero($idPasajero);
+                    $viaje->eliminarPasajero($dni);
                     $agregado = $viaje->nuevoPasajero($datos[0]);
                     $viaje->setColPasajeros(array_values($agregado));
                 } else {
@@ -215,8 +217,8 @@ do {
             echo "Ingrese el dni del pasajero a eliminar: ";
             $dni = trim(fgets(STDIN));
             $idPasajero = $viaje->existePasajero($dni);
-            if (is_int($idPasajero)) {
-                $viaje->eliminarPasajero($idPasajero);
+            if ($idPasajero != false) {
+                $viaje->eliminarPasajero($dni);
             } else {
                 echo "El pasajero no existe: ";
             }

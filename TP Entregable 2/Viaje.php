@@ -17,12 +17,88 @@ Modificar la clase Viaje para que ahora los pasajeros sean un objeto que tenga l
  */
 class viaje
 {
+    /**
+     * Variables
+     *
+     * @var int $codigo
+     * @var string $destino
+     * @var int $cantMaxPasajeros
+     * @var array $colPasajeros
+     * @var object $responsable
+     */
     private $codigo;
     private $destino;
     private $cantMaxPasajeros;
     private $colPasajeros;
     private $responsable;
 
+    /**
+     * nuevoPasajero
+     * une un array que viene por parametro
+     * con el array $listaPasajeros
+     *
+     * @param array $pasajero
+     * @return array
+     */
+    public function nuevoPasajero($pasajero)
+    {
+        $listaPasajeros = $this->getColPasajeros();
+        $listaPasajeros[] = $pasajero;
+        return $listaPasajeros;
+    }
+
+    /**
+     * existePasajero
+     * Recorre la coleccion de pasajeros y verifica si existe el pasajero con dni pasado por parametro
+     *
+     * @param int $dni
+     * @return int
+     */
+    public function existePasajero($dni)
+    {
+        $colPasajeros = $this->getColPasajeros();
+        $existe = false;
+        $i = 0;
+        while ($i < count($colPasajeros) && $existe != true) {
+            if ($colPasajeros[$i]->getDni() == $dni) {
+                $existe = true;
+            }
+            $i++;
+        }
+        return $existe;
+    }
+
+    /**
+     * Eliminar Pasajero
+     * Eliminia un elemento del array $colPasajeros
+     * @param int $id
+     * @return void
+     */
+    public function eliminarPasajero($dni)
+    {
+        $listaPasajeros = $this->getColPasajeros();
+        $cant = count($listaPasajeros);
+        $eliminado = false;
+        $i = 0;
+        while ($i < $cant && $eliminado != true) {
+
+            if ($listaPasajeros[$i]->getDni() == $dni) {
+                unset($listaPasajeros[$i]);
+                $this->setColPasajeros($listaPasajeros);
+                $eliminado = true;
+            }
+        }
+    }
+
+    /**
+     * Constructor Method
+     *
+     * @param int $codigo
+     * @param string $destino
+     * @param int $cantMaxPasajeros
+     * @param array $colPasajeros
+     * @param object $responsable
+     */
     public function __construct($codigo, $destino, $cantMaxPasajeros, $colPasajeros, $responsable)
     {
         $this->setCodigo($codigo);
@@ -31,6 +107,37 @@ class viaje
         $this->setColPasajeros($colPasajeros);
         $this->setResponsable($responsable);
     }
+
+    /**
+     * Lista Pasajeros
+     * Genera una lista de pasajeros para el metodo _toString
+     *
+     * @return void
+     */
+    public function listaPasajeros()
+    {
+        $lista = $this->getColPasajeros();
+        $string = "";
+        for ($i = 0; $i < count($lista); $i++) {
+            $string .= $lista[$i]->__toString() . "\n";
+        }
+    }
+
+    public function __toString()
+    {
+        $string = "Codigo: " . $this->getCodigo() . "\n";
+        $string .= "Destino: " . $this->getDestino() . "\n";
+        $string .= "Cantidad Máxima de pasajeros: " . $this->getCantMaxPasajeros() . "\n";
+        $string .= "Responsable del Viaje: " . $this->getResponsable()->__toString() . "\n";
+        $string .= "Pasajeros: " . $this->listaPasajeros() . "\n";;
+
+        return $string;
+    }
+
+
+    /**
+     * Getters & Setters
+     */
     public function getCodigo()
     {
         return $this->codigo;
@@ -79,69 +186,5 @@ class viaje
     public function setResponsable($responsable)
     {
         $this->responsable = $responsable;
-    }
-    /**
-     * nuevoPasajero
-     * une un array que viene por parametro
-     * con el array $listaPasajeros
-     *
-     * @param array $pasajero
-     * @return array
-     */
-    public function nuevoPasajero($pasajero)
-    {
-        $listaPasajeros = $this->getColPasajeros();
-        $listaPasajeros[] = $pasajero;
-        return $listaPasajeros;
-    }
-
-    /**
-     * existePasajero
-     * Recorre la coleccion de pasajeros y verifica si existe el pasajero con dni pasado por parametro
-     *
-     * @param int $dni
-     * @return int
-     */
-    public function existePasajero($dni)
-    {
-        $colPasajeros = $this->getColPasajeros();
-        $id = null;
-        for ($i = 0; $i < count($colPasajeros); $i++) {
-            if ($colPasajeros[$i]->getDni() == $dni) {
-                $id = $i;
-            } else {
-                $id = -1;
-            }
-        }
-        return $id;
-    }
-
-    public function eliminarPasajero($id)
-    {
-        $listaPasajeros = $this->getColPasajeros();
-        $cant = count($listaPasajeros);
-        unset($listaPasajeros[$id]);
-        if (count($listaPasajeros) < $cant) {
-            $this->setColPasajeros($listaPasajeros);
-        } else {
-            echo "No fue posible eliminar el pasajero.";
-        }
-    }
-
-    public function listaPasajeros()
-    {
-        $lista = $this->getColPasajeros();
-        for ($i = 0; $i < count($lista); $i++) {
-            echo $lista[$i]->__toString();
-        }
-    }
-
-    public function __toString()
-    {
-        return "\nCodigo: " . $this->getCodigo() .
-            "\nDestino: " . $this->getDestino() .
-            "\nCantidad Máxima de pasajeros: " . $this->getCantMaxPasajeros() .
-            "\nResponsable del Viaje: \n" . $this->getResponsable()->__toString() .
-            "\nPasajeros: \n" . $this->listaPasajeros();
     }
 }
