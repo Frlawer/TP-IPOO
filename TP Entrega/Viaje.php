@@ -16,58 +16,14 @@ class Viaje
      * @param array $pasaj
      * return void
      */
-    public function __construct($cod, $dest, $cantMax, $pasaj)
+    public function __construct($codigo, $destino, $cantMaxPasajeros, $pasajeros)
     {
-        $this->setCodigo($cod);
-        $this->setDestino($dest);
-        $this->setCantidadMaxPasajeros($cantMax);
-        $this->setPasajeros($pasaj);
+        $this->setCodigo($codigo);
+        $this->setDestino($destino);
+        $this->setCantidadMaxPasajeros($cantMaxPasajeros);
+        $this->setPasajeros($pasajeros);
     }
 
-    /**
-     *************************************************
-     * Getters & Setters
-     * @return int
-     */
-    public function getCodigo()
-    {
-        return $this->codigo;
-    }
-
-    public function getDestino()
-    {
-        return $this->destino;
-    }
-
-    public function getCantidadMaximaPasajeros()
-    {
-        return $this->cantMaxPasajeros;
-    }
-
-    public function getPasajeros()
-    {
-        return $this->pasajeros;
-    }
-
-    public function setCodigo($cod)
-    {
-        $this->codigo = $cod;
-    }
-
-    public function setDestino($dest)
-    {
-        $this->destino = $dest;
-    }
-
-    public function setCantidadMaxPasajeros($cantMax)
-    {
-        $this->cantMaxPasajeros = $cantMax;
-    }
-
-    public function setPasajeros($pasaj)
-    {
-        $this->pasajeros = $pasaj;
-    }
     // ******************************************************
     /**
      * nuevoPasajero
@@ -125,10 +81,12 @@ class Viaje
     {
         $lista = $this->getPasajeros();
         for ($i = 0; $i < count($lista); $i++) {
-            echo "\n Pasajero N° " . $i .
-                "\nNombre: " . $lista[$i]["nombre"] .
-                "\nApellido: " . $lista[$i]["apellido"] .
-                "\nDNI: " . $lista[$i]["dni"];
+            $string = "Pasajero N° " . $i . "\n";
+            $string .= "Nombre: " . $lista[$i]["nombre"] . "\n";
+            $string .= "Apellido: " . $lista[$i]["apellido"] . "\n";
+            $string .= "DNI: " . $lista[$i]["dni"] . "\n";
+
+            return $string;
         }
     }
 
@@ -139,9 +97,55 @@ class Viaje
      */
     public function __toString()
     {
-        return "\nCodigo viaje: " . $this->getCodigo() .
-            "\nDestino: " . $this->getDestino() .
-            "\nCantidad Maxima de pasajeros: " . $this->getCantidadMaximaPasajeros() .
-            "\n Pasajeros: " . $this->listaPasajeros();
+        $string = "Codigo viaje: " . $this->getCodigo() . "\n";
+        $string .= "Destino: " . $this->getDestino() . "\n";
+        $string .= "Cantidad Maxima de pasajeros: " . $this->getCantidadMaximaPasajeros() . "\n";
+        $string .= "Pasajeros: " . $this->listaPasajeros() . "\n";
+
+        return $string;
+    }
+
+    /**
+     *************************************************
+     * Getters & Setters
+     */
+    public function getCodigo()
+    {
+        return $this->codigo;
+    }
+
+    public function getDestino()
+    {
+        return $this->destino;
+    }
+
+    public function getCantidadMaximaPasajeros()
+    {
+        return $this->cantMaxPasajeros;
+    }
+
+    public function getPasajeros()
+    {
+        return $this->pasajeros;
+    }
+
+    public function setCodigo($cod)
+    {
+        $this->codigo = $cod;
+    }
+
+    public function setDestino($dest)
+    {
+        $this->destino = $dest;
+    }
+
+    public function setCantidadMaxPasajeros($cantMax)
+    {
+        $this->cantMaxPasajeros = $cantMax;
+    }
+
+    public function setPasajeros($pasaj)
+    {
+        $this->pasajeros = $pasaj;
     }
 }
